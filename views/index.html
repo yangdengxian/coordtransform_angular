@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8090/arcgis_js_api/library/3.14/3.14/esri/css/esri.css" />
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8090/arcgis_js_api/library/3.14/3.14/dijit/themes/tundra/tundra.css" />
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8090/arcgis_js_api/library/3.14/3.14/dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" type="text/css" href="/job/css/style.css">
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/angular-1.2.14/angular.js"></script>
+    <script src="/angular-1.2.14/ng-file-upload.js"></script>
+    <script src="/angular-1.2.14/ng-file-upload-shim.js"></script>
+    <script src="/job/js/data.js"></script>
+    <script src="/job/js/main.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8090/arcgis_js_api/library/3.14/3.14/init.js"></script>
+</head>
+
+<body ng-controller="coordtransformCtrl">
+    <div class="container">
+        <!--左侧查询form start  -->
+        <div class="left">
+            <form class="form-horizontal" name="myForm">
+                <div class="control-group">
+                    <label class="control-label">唯一的Id</label>
+                    <div class="controls">
+                        <input type="text" class="form-control" ng-model="uniqueId" placeholder="唯一的Id" />
+                    </div>
+                </div>
+                <!-- <div class="control-group">
+                    <label class="control-label">文件输入</label>
+                    <div class="controls">
+                        <div class="btn" ngf-select ng-model="file" name="file" ngf-max-size="20MB" ngf-min-height="100">选择文件</div>
+                        <button type="submit" class="btn" ng-click="submit()">上传</button>
+                    </div>
+                </div> -->
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-default" ng-click="transSystem();">生成LineString</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--左侧查询form end  -->
+        <!--右侧数据展示 start  -->
+        <div class="right">
+            <div class="toolbars">
+                <input type="button" class="btn" value="导出EXCEL" ng-click="tableToExcel('tableData','道路信息')" />
+                <input type="text" name="" value="" ng-model="roadArray.length" />
+            </div>
+            <div class="tableBody">
+                <table class="table table-striped" id="tableData">
+                    <thead>
+                        <tr>
+                            <th>唯一Id</th>
+                            <th>组织机构Id</th>
+                            <th>道路长度</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="roadObj in roadArray">
+                            <td><span ng-bind="roadObj.carRoutePlanId"></span></td>
+                            <td><span ng-bind="roadObj.orgId"></span></td>
+                            <td><span ng-bind="roadObj.roadLen"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--右侧数据展示 end  -->
+    </div>
+
+
+</body>
+
+</html>

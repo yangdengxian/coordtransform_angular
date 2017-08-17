@@ -1,0 +1,113 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    display: block;
+    border: 0;
+}
+
+ul,
+li {
+    list-style: none
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+}
+
+html,
+body {
+    font-family: "微软雅黑";
+    font-size: 16px;
+    width: 100%;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+
+/*左侧查询 start  */
+
+.container .left {
+    float: left;
+    width: 25%;
+    height: 100%;
+}
+
+.container .left form {
+    margin-top: 20px;
+}
+
+.container .left form input {
+    width: 170px;
+}
+
+.container .left label {
+    width: 100px;
+}
+
+.container .left .controls {
+    margin-left: 120px;
+}
+
+.container .left label {
+    font-weight: 600;
+}
+
+
+/*左侧查询 end  */
+
+
+/*数据展示 start  */
+
+.container .right {
+    float: left;
+    width: 75%;
+    height: 100%;
+}
+
+.container .right .toolbars {
+    width: 100%;
+    background: #08c;
+    text-align: right;
+    height: 50px;
+    line-height: 50px;
+}
+
+.container .right .tableBody {
+    width: 100%;
+    height: 100%;
+}
+
+.container .right table {
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.table tr {
+    width: 100%;
+    height: 20px;
+}
+
+.table tr th {
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #0987a2;
+}
+
+.table tr td {
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #0987a2;
+    line-height: initial;
+}
+
+
+/*数据展示 end  */

@@ -1,7 +1,12 @@
 (function(window, angular) {
     var app = angular.module('myApp', ['ngFileUpload']);
-    app.controller('coordtransformCtrl', ['$scope', '$http', 'transformService', 'exportExcelService', 'Upload',
-        function($scope, $http, transformService, exportExcelService, Upload) {
+    app.filter('toFiexedFilter', function() {
+        return function(value) {
+            return +value.toFixed(2);
+        };
+    });
+    app.controller('coordtransformCtrl', ['$scope', '$http', '$timeout', 'transformService', 'exportExcelService', 'Upload',
+        function($scope, $http, $timeout, transformService, exportExcelService, Upload) {
             require([
                 "esri/map",
                 "esri/graphic",
@@ -20,9 +25,14 @@
                 $scope.uniqueId = "";
                 //道路信息数组
                 $scope.roadArray = [];
+                $scope.files = {
+                    files: {},
+                    name: "",
+                    progressPercentage: 0
+                };
                 $scope.transSystem = function() {
                     var iunsertStr = "",
-                        filePath = "/job/json/data.json",
+                        filePath = "testFile/" + $scope.files.name,
                         dataJson;
                     $scope.roadArray = [];
                     $http.get("../readFile?filePath=" + filePath).success(function(res) {
@@ -58,8 +68,27 @@
                     exportExcelService.tableToExcel(tableId, tableName);
                 };
                 //上传文件
-                $scope.submit = function() {
-                    fileUpload($scope.file);
+                $scope.$watch('files.files', function() {
+                    $scope.files.name = $scope.files.files[0] ? $scope.files.files[0]["name"] : "";
+                    $scope.uploadFiles($scope.files.files);
+                });
+                $scope.uploadFiles = function(files) {
+                    if (files && files.length) {
+                        for (var i = 0; i < files.length; i++) {
+                            var file = files[i];
+                            Upload.upload({
+                                url: '../uploadFiles', //此处url为向后台nodejs请求的路由
+                                file: file
+                            }).progress(function(evt) {
+                                $scope.files.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                            }).success(function(data, status, headers, config) {
+                                $scope.files.name = config.file.name;
+                                console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                            }).error(function(data, status, headers, config) {
+                                console.log('error status: ' + status);
+                            })
+                        }
+                    }
                 };
                 /**
                  * post提交
@@ -86,29 +115,7 @@
                     $("body").append(form);
                     $("#submitFormData").submit();
                 }
-                /**
-                 * 文件上传
-                 * @param {*} file 
-                 */
-                function fileUpload(file) {
-                    $scope.fileInfo = file;
-                    Upload.upload({
-                        url: "",
-                        data: { userName: $scope.userName },
-                        file: file
-                    }).progress(function(evt) {
-                        //进度条
-                        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                        console.log('progess:' + progressPercentage + '%' + evt.config.file.name);
-                    }).success(function(data, status, headers, config) {
-                        //上传成功
-                        console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-                        $scope.uploadImg = data;
-                    }).error(function(data, status, headers, config) {
-                        //上传失败
-                        console.log('error status: ' + status);
-                    });
-                }
+
                 /**
                  * 获取insertSql
                  * @param {*} dataObj 

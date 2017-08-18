@@ -31,13 +31,24 @@
                         <input type="text" class="form-control" ng-model="uniqueId" placeholder="唯一的Id" />
                     </div>
                 </div>
-                <!-- <div class="control-group">
+                <div class="control-group">
                     <label class="control-label">文件输入</label>
                     <div class="controls">
-                        <div class="btn" ngf-select ng-model="file" name="file" ngf-max-size="20MB" ngf-min-height="100">选择文件</div>
-                        <button type="submit" class="btn" ng-click="submit()">上传</button>
+                        <!-- <button type="file" class="btn" ngf-select="uploadFiles($file, $invalidFiles)" ngf-max-height="1000" ngf-max-size="50MB">选择文件</button>
+                        <div style="font:smaller">{{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}
+                            <span class="progress" ng-show="f.progress >= 0">
+                                <div style="width:{{f.progress}}%" ng-bind="f.progress + '%'"></div>
+                            </span>
+                        </div>
+                        {{errorMsg}} -->
+                        <input type="file" ngf-select ng-model="files.files" ngf-multiple="true" />
+                        <div style="font:smaller">
+                            <span class="progress" ng-show="files.progressPercentage > 0">
+                                <div style="width:{{files.progressPercentage}}%" ng-bind="files.progressPercentage + '%'"></div>
+                            </span>
+                        </div>
                     </div>
-                </div> -->
+                </div>
                 <div class="control-group">
                     <div class="controls">
                         <button type="submit" class="btn btn-default" ng-click="transSystem();">生成LineString</button>
@@ -65,7 +76,7 @@
                         <tr ng-repeat="roadObj in roadArray">
                             <td><span ng-bind="roadObj.carRoutePlanId"></span></td>
                             <td><span ng-bind="roadObj.orgId"></span></td>
-                            <td><span ng-bind="roadObj.roadLen"></span></td>
+                            <td><span>{{roadObj.roadLen | toFiexedFilter}}</span></td>
                         </tr>
                     </tbody>
                 </table>

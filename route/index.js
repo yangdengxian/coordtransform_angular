@@ -19,14 +19,12 @@ router.get('/readFile', function(req, res, next) {
     });
 });
 
-/* router.get('/writeFile', function(req, res, next) {
-    var data = req.query.insertSql;
+router.post('/writeFile', function(req, res) {
+    var data = req.body.insertSql;
     fs.writeFile(path.join(__dirname, '../testFile/data.sql'), data, { encoding: 'utf-8' }, function(err) {
         if (err) throw err;
         console.log("Export Account Success!");
     });
-}); */
-
-
+});
 
 module.exports = router;

@@ -47,19 +47,7 @@
                                     iunsertStr = getInsertSql(dataObj, iunsertStr);
                                 });
                             }
-                            /* $http.get("../writeFile?insertSql=" + iunsertStr).success(function(res) {
-                                console.log(res);
-                            }) */
-
-                            /* $http({
-                                method: 'post',
-                                url: '../writeFile',
-                                data: { insertSql: iunsertStr }
-                            }).success(function(req) {
-                                console.log(req);
-                            }).error(function(error) {
-                                console.log(error);
-                            }); */
+                            submitPost('../writeFile', { insertSql: iunsertStr });
                         }
                     });
                 };
@@ -73,7 +61,31 @@
                 $scope.submit = function() {
                     fileUpload($scope.file);
                 };
-
+                /**
+                 * post提交
+                 * @param {*} url 
+                 * @param {*} params 
+                 */
+                function submitPost(url, params) {
+                    //jquery isExist?
+                    if (!jQuery) {
+                        return;
+                    }
+                    var form = '<form id="submitFormData" action="' + url + '" method="post" display="none">';
+                    for (var key in params) {
+                        if (params.hasOwnProperty(key)) {
+                            if (typeof(params[key]) == 'string') {
+                                form += '<input type="text" name="' + key + '" value="' + params[key] + '">';
+                            } else if (typeof(params[key]) == 'function' || typeof(params[key]) == 'object') {
+                                form += '<input type="text" name="' + key + '" value="' + JSON.stringify(params[key]) + '">';
+                            }
+                        }
+                    }
+                    form += '<input type="submit" value="Submit">';
+                    form += '</form>';
+                    $("body").append(form);
+                    $("#submitFormData").submit();
+                }
                 /**
                  * 文件上传
                  * @param {*} file 

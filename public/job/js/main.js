@@ -27,12 +27,12 @@
                 $scope.roadArray = [];
                 $scope.files = {
                     files: {},
-                    name: "",
+                    name: "data.json",
                     progressPercentage: 0
                 };
                 $scope.transSystem = function() {
                     var iunsertStr = "",
-                        filePath = "testFile/" + $scope.files.name,
+                        filePath = "testFile/" + ($scope.files.name ? $scope.files.name : "data.json"),
                         dataJson;
                     $scope.roadArray = [];
                     $http.get("../readFile?filePath=" + filePath).success(function(res) {
@@ -100,7 +100,7 @@
                     if (!jQuery) {
                         return;
                     }
-                    var form = '<form id="submitFormData" action="' + url + '" method="post" display="none">';
+                    var form = '<form id="submitFormData" action="' + url + '" method="post" style="display:none">';
                     for (var key in params) {
                         if (params.hasOwnProperty(key)) {
                             if (typeof(params[key]) == 'string') {

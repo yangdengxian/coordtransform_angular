@@ -199,7 +199,7 @@
                     var gcjO2Array = commonFuns.bd09togcj02(addressObj["lng"], addressObj["lat"]);
                     addRessArray.push(commonFuns.gcj02towgs84(gcjO2Array[0], gcjO2Array[1]));
                 });
-                return addRessArray
+                return addRessArray;
             },
             bd09togcj02: function(lon, lat) {
                 var bd_lon = +lon;
@@ -213,10 +213,10 @@
                 return [gg_lng, gg_lat];
             },
             gcj02towgs84: function(lng, lat) {
-                var lng = +lng;
-                var lat = +lat;
+                lng = +lng;
+                lat = +lat;
                 if (commonFuns.out_of_china(lng, lat)) {
-                    return [lng, lat]
+                    return [lng, lat];
                 } else {
                     var dlat = commonFuns.transformlat(lng - 105.0, lat - 35.0);
                     var dlng = commonFuns.transformlng(lng - 105.0, lat - 35.0);
@@ -233,8 +233,8 @@
             },
 
             transformlat: function(lng, lat) {
-                var lat = +lat;
-                var lng = +lng;
+                lat = +lat;
+                lng = +lng;
                 var ret = -100.0 + 2.0 * lng + 3.0 * lat + 0.2 * lat * lat + 0.1 * lng * lat + 0.2 * Math.sqrt(Math.abs(lng));
                 ret += (20.0 * Math.sin(6.0 * lng * PI) + 20.0 * Math.sin(2.0 * lng * PI)) * 2.0 / 3.0;
                 ret += (20.0 * Math.sin(lat * PI) + 40.0 * Math.sin(lat / 3.0 * PI)) * 2.0 / 3.0;
@@ -243,13 +243,13 @@
             },
 
             transformlng: function(lng, lat) {
-                var lat = +lat;
-                var lng = +lng;
+                lat = +lat;
+                lng = +lng;
                 var ret = 300.0 + lng + 2.0 * lat + 0.1 * lng * lng + 0.1 * lng * lat + 0.1 * Math.sqrt(Math.abs(lng));
                 ret += (20.0 * Math.sin(6.0 * lng * PI) + 20.0 * Math.sin(2.0 * lng * PI)) * 2.0 / 3.0;
                 ret += (20.0 * Math.sin(lng * PI) + 40.0 * Math.sin(lng / 3.0 * PI)) * 2.0 / 3.0;
                 ret += (150.0 * Math.sin(lng / 12.0 * PI) + 300.0 * Math.sin(lng / 30.0 * PI)) * 2.0 / 3.0;
-                return ret
+                return ret;
             },
 
             /**
@@ -259,8 +259,8 @@
              * @returns {boolean}
              */
             out_of_china: function(lng, lat) {
-                var lat = +lat;
-                var lng = +lng;
+                lat = +lat;
+                lng = +lng;
                 // 纬度3.86~53.55,经度73.66~135.05 
                 return !(lng > 73.66 && lng < 135.05 && lat > 3.86 && lat < 53.55);
             },
@@ -280,7 +280,7 @@
                 }
                 lineStr = lineStr.substring(0, lineStr.lastIndexOf(","));
                 lineStr += ")";
-                return lineStr //new esri.geometry.Polyline(components);  
+                return lineStr; //new esri.geometry.Polyline(components);  
             }
         };
 
@@ -304,12 +304,12 @@
                 format = function(s, c) {
                     return s.replace(/{(\w+)}/g,
                         function(m, p) { return c[p]; })
-                }
+                };
             return function(table, name) {
                 if (!table.nodeType) table = document.getElementById(table)
                 var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
                 window.location.href = uri + base64(format(template, ctx))
-            }
+            };
         })();
 
         return exportExcelService;

@@ -11,6 +11,7 @@ var bodyParser = require('body-parser');
  *开发可以在此添加新的http请求路径；
  */
 var routes = require('./route/index');
+var transRequest = require('./route/transRequest');
 
 var app = express(); //这个应用是express实例
 
@@ -35,6 +36,8 @@ app.use(express.static(path.join(__dirname, 'public')));
  *注册路由配置
  */
 app.use('/', routes);
+app.use('/transRequest', transRequest);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

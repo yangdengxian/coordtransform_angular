@@ -55,4 +55,15 @@ router.get('/BD09ToWGS84', function(req, res, next) {
     transformService.gcj02towgs84(lon, lat, res);
 });
 
+/**
+ * 百度坐标系转GPS坐标系或者天地图坐标系
+ */
+router.get('/proj4Transform', function(req, res, next) {
+    var fromWkid = req.query.fromWkid,
+        toWkid = req.query.toWkid || 3857,
+        coordinate = req.query.coordinate && req.query.coordinate.indexOf(",") > -1 ?
+        req.query.coordinate.split(",") : [0, 0];
+    transformService.proj4Transform(fromWkid, toWkid, coordinate, res);
+});
+
 module.exports = router;

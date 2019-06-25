@@ -1,3 +1,5 @@
+var proj4 = require('proj4');
+var Config = require('../config/Config');
 // 向前台返回JSON方法的简单封装
 var jsonWrite = function(res, ret) {
     if (typeof ret === 'undefined') {
@@ -18,6 +20,7 @@ var x_PI = 3.14159265358979324 * 3000.0 / 180.0;
 var PI = 3.1415926535897932384626;
 var a = 6378245.0;
 var ee = 0.00669342162296594323;
+var WKID = 4326;
 
 var commonFuns = {
     transformlat: function(lng, lat) {
@@ -134,5 +137,29 @@ module.exports = {
             var mglng = lng + dlng;
             return jsonWrite(res, { "lon": lng * 2 - mglng, "lat": lat * 2 - mglat });
         }
-    }
+    },
+
+    /**
+     * proj4坐标转换
+     * @param {*} fromWkid 源坐标系wkid eg：4326
+     * @param {*} toWkid 转换的坐标系wkid eg：3857
+     * @param {*} coordinate [x,y]
+     */
+    proj4Transform: function(fromWkid, toWkid, coordinate, res) {
+        var proj4textFromStr = "",
+            proj4textToStr = "";
+        if (!fromWkid) {
+            return jsonWrite(res, "请输入源坐标系wkid，如：4326");
+        }
+
+        if (proj4 && fromWkid && coordinate) {
+            toWkid = toWkid || 3857;
+            proj4textFromStr = Config.proj4textObj[fromWkid]["srtext"];
+            proj4textToStr = Config.proj4textObj[toWkid]["proj4text"];
+            coordinate[0] = +coordinate[0];
+            coordinate[1] = +coordinate[1];
+            coordinate = proj4(proj4textFromStr, proj4textToStr, coordinate);
+        }
+        return jsonWrite(res, { "x": coordinate[0], "y": coordinate[1], "wkid": toWkid });
+    },
 }
